@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "4a710858-6475-4cc6-9987-66ed168258ec": {
+      "ProjectGuid": "4a710858-6475-4cc6-9987-66ed168258ec",
+      "DisplayName": "RSA_ELGAMAL",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
