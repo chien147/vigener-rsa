@@ -321,10 +321,6 @@ namespace RSA_ELGAMAL
                 rsa_soQ.Text = RSA_soQ.ToString();
                 RSA_taoKhoa();
                 RSA_d_dau = 1;
-                //rsa_TaoKhoa.Content = "Tạo lại khóa mới";
-                //rsa_TaoKhoa.IsEnabled = false;
-                //rd_tcRSA.IsEnabled = false;
-                //rd_tdRSA.IsEnabled = false;
                 rsa_btMaHoa.IsEnabled = true;
             }
             else
@@ -362,8 +358,7 @@ namespace RSA_ELGAMAL
                                     rsa_soP.Text = RSA_soP.ToString();
                                     rsa_soQ.Text = RSA_soQ.ToString();
                                     RSA_d_dau = 1;
-                                    //bt_taokhoaTuychonMoi.Visible = true;
-                                    //rsa_TaoKhoa.IsEnabled = false;
+                                    
                                 }
                             }
                         }
@@ -445,7 +440,6 @@ namespace RSA_ELGAMAL
             rsa_btMaHoa.IsEnabled = true;
             rsa_BanRo.Text = rsa_BanMaHoa.Text = rsa_banMaHoaGuiDen.Text = rsa_banGiaiMa.Text = string.Empty;
             RSA_d_dau = 1;
-            //rsa_maHoaBanRoMoi.IsEnabled = false;
         }
 
         private void rsa_btThoat_Click(object sender, RoutedEventArgs e)
@@ -455,7 +449,7 @@ namespace RSA_ELGAMAL
 
         private void rsa_TaoKhoaMoi_Click(object sender, RoutedEventArgs e)
         {
-            rsa_maHoaBanRoMoi.IsEnabled = false;
+            
             RSA_d_dau = 0;
             rsa_TaoKhoa.IsEnabled = true;
             rd_tdRSA.IsEnabled = true;
@@ -463,9 +457,7 @@ namespace RSA_ELGAMAL
             rd_tcRSA.IsEnabled = true;
             rd_tcRSA.IsChecked = false;
             rsa_soP.Text = rsa_soQ.Text = rsa_soPhiN.Text = rsa_soN.Text = rsa_soE.Text = rsa_soD.Text = string.Empty;
-
             rsa_banGiaiMa.Text = rsa_BanMaHoa.Text = rsa_BanRo.Text = rsa_banMaHoaGuiDen.Text = string.Empty;
-            //rsa_btGiaiMa.IsEnabled = false; rsa_btMaHoa.IsEnabled = false;
 
         }
 
@@ -483,6 +475,7 @@ namespace RSA_ELGAMAL
                 }
             }
         }
+
         private bool IsNumber(string Text_x)
         {
             int outPut;
