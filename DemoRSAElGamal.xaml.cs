@@ -27,9 +27,7 @@ using System.Collections;
 
 namespace RSA_ELGAMAL
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
+    
     public partial class DemoRSAElGamal : Window
     {
         public DemoRSAElGamal()
@@ -42,11 +40,6 @@ namespace RSA_ELGAMAL
 
         }
         #region code mã hóa elgamal
-       
-
-
-
-        
         
         string chuoi = "AÁÀẠẢÃĂẮẰẶẲẴẤẦẬẨẪBCDĐEÉÈẸẺẼÊẾỀỆỂỄGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỦỤŨƯỨỪỰỬỮVWXYÝỲỴỶỸZ~`!@#$%^&*();:?/>.<, ";
 
@@ -60,12 +53,8 @@ namespace RSA_ELGAMAL
             return mang;
         }
 
-        
-        
         public string chiso_chuoi(int[] a)
         {
-            
-        //string chuoi = "AÁÀẠẢÃĂẮẰẶẲẴẤẦẬẨẪBCDĐEÉÈẸẺẼÊẾỀỆỂỄGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỦỤŨƯỨỪỰỬỮVWXYÝỲỴỶỸZ" ;
 
             string s = "";
             for (int i = 0; i < a.Length; i++)
@@ -73,11 +62,8 @@ namespace RSA_ELGAMAL
             return s;
         }
 
-        public string MaHoa(ref string s, string key){
-            
-        //string chuoi = "AÁÀẠẢÃĂẮẰẶẲẴẤẦẬẨẪBCDĐEÉÈẸẺẼÊẾỀỆỂỄGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỦỤŨƯỨỪỰỬỮVWXYÝỲỴỶỸZ" ;
-
-
+        public string MaHoa(ref string s, string key)
+        {
             string cipherText = "";
             key = key.ToUpper();
             s = s.ToUpper();
@@ -93,12 +79,10 @@ namespace RSA_ELGAMAL
             }
                 cipherText = chiso_chuoi(kq);
                 return cipherText;
-
-            
         }
+
         public string GiaiMa(ref string s, string key)
         {   
-            //string chuoi = "AÁÀẠẢÃĂẮẰẶẲẴẤẦẬẨẪBCDĐEÉÈẸẺẼÊẾỀỆỂỄGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỦỤŨƯỨỪỰỬỮVWXYÝỲỴỶỸZ ";
             key = key.ToUpper();
             s = s.ToUpper();
             string plainText = "";
@@ -116,11 +100,7 @@ namespace RSA_ELGAMAL
             }
                 plainText = chiso_chuoi(kq);
             return plainText;
-          
-            
         }
-
-        
 
         private void btMaHoa_Click(object sender, RoutedEventArgs e)
         {
@@ -130,6 +110,7 @@ namespace RSA_ELGAMAL
             txt_maHoaBanRo.Text = v.ToString();
 
         }
+
         private void btGiaiMa_Click(object sender, RoutedEventArgs e)
         {
             string s = txt_banMaHoaNhanDuoc.Text;
@@ -138,13 +119,10 @@ namespace RSA_ELGAMAL
             txt_banGiaima.Text = v.ToString();
         }
 
-
         private void btThoat_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
-
-        
 
         #endregion code mã hóa elgamal
 
@@ -159,11 +137,13 @@ namespace RSA_ELGAMAL
 
         int RSA_soP, RSA_soQ, RSA_soN, RSA_soE, RSA_soD, RSA_soPhi_n;
         public int RSA_d_dau = 0;
+
         private int RSA_ChonSoNgauNhien()
         {
             Random rd = new Random();
             return rd.Next(11, 101);// tốc độ chậm nên chọn số bé
         }
+
         //"Hàm kiểm tra nguyên tố"
         private bool RSA_kiemTraNguyenTo(int xi)
         {
@@ -191,6 +171,7 @@ namespace RSA_ELGAMAL
             }
             return kiemtra;
         }
+
         // "Hàm kiểm tra hai số nguyên tố cùng nhau"
         private bool nguyenToCungNhau(int ai, int bi)
         {
@@ -207,6 +188,7 @@ namespace RSA_ELGAMAL
             else ktx_ = false;
             return ktx_;
         }
+
         // "Hàm lấy mod"
         public int RSA_mod(int mx, int ex, int nx)
         {
@@ -260,6 +242,7 @@ namespace RSA_ELGAMAL
             }
             rsa_soD.Text = RSA_soD.ToString();
         }
+
         public void RSA_MaHoa(string ChuoiVao)
         {
             // taoKhoa();
@@ -295,10 +278,11 @@ namespace RSA_ELGAMAL
         // hàm giải mã
         public void RSA_GiaiMa(string ChuoiVao)
         {
+            
             byte[] temp2 = Convert.FromBase64String(ChuoiVao);
             string giaima = Encoding.Unicode.GetString(temp2);
 
-            int[] b = new int[giaima.Length];
+            int[] b = new int[giaima.Length];                   // độ dài mảng = giải mã
             for (int i = 0; i < giaima.Length; i++)
             {
                 b[i] = (int)giaima[i];
@@ -319,6 +303,7 @@ namespace RSA_ELGAMAL
             rsa_banGiaiMa.Text = Encoding.Unicode.GetString(data2);
 
         }
+
         private void rsa_TaoKhoa_Click(object sender, RoutedEventArgs e)
         {
 
@@ -336,10 +321,10 @@ namespace RSA_ELGAMAL
                 rsa_soQ.Text = RSA_soQ.ToString();
                 RSA_taoKhoa();
                 RSA_d_dau = 1;
-                rsa_TaoKhoa.Content = "Tạo lại khóa mới";
-                rsa_TaoKhoa.IsEnabled = false;
-                rd_tcRSA.IsEnabled = false;
-                rd_tdRSA.IsEnabled = false;
+                //rsa_TaoKhoa.Content = "Tạo lại khóa mới";
+                //rsa_TaoKhoa.IsEnabled = false;
+                //rd_tcRSA.IsEnabled = false;
+                //rd_tdRSA.IsEnabled = false;
                 rsa_btMaHoa.IsEnabled = true;
             }
             else
@@ -378,7 +363,7 @@ namespace RSA_ELGAMAL
                                     rsa_soQ.Text = RSA_soQ.ToString();
                                     RSA_d_dau = 1;
                                     //bt_taokhoaTuychonMoi.Visible = true;
-                                    rsa_TaoKhoa.IsEnabled = false;
+                                    //rsa_TaoKhoa.IsEnabled = false;
                                 }
                             }
                         }
@@ -406,9 +391,9 @@ namespace RSA_ELGAMAL
                     try
                     {
                         RSA_MaHoa(rsa_BanRo.Text);
-                        rsa_btMaHoa.IsEnabled = false;
-                        rsa_btGiaiMa.IsEnabled = true;
-                        RSA_d_dau = 2;
+                        //rsa_btMaHoa.IsEnabled = false;
+                        //rsa_btGiaiMa.IsEnabled = true;
+                        //RSA_d_dau = 2;
                     }
                     catch (Exception ex)
                     {
@@ -421,21 +406,21 @@ namespace RSA_ELGAMAL
         private void rsa_btGiaiMa_Click(object sender, RoutedEventArgs e)
         {
 
-            if (RSA_d_dau != 2)
+            if (RSA_d_dau != 1)
                 MessageBox.Show("Bạn phải tạo khóa trước ", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 try
                 {
-                    RSA_GiaiMa(rsa_BanMaHoa.Text);
+                    RSA_GiaiMa(rsa_banMaHoaGuiDen.Text);
 
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            rsa_btGiaiMa.IsEnabled = false;
-            RSA_d_dau = 1;
-            rsa_maHoaBanRoMoi.IsEnabled = true;
+            //RSA_d_dau = 1;
+            //rsa_btGiaiMa.IsEnabled = false;
+            //rsa_maHoaBanRoMoi.IsEnabled = true;
         }
 
 
@@ -460,7 +445,7 @@ namespace RSA_ELGAMAL
             rsa_btMaHoa.IsEnabled = true;
             rsa_BanRo.Text = rsa_BanMaHoa.Text = rsa_banMaHoaGuiDen.Text = rsa_banGiaiMa.Text = string.Empty;
             RSA_d_dau = 1;
-            rsa_maHoaBanRoMoi.IsEnabled = false;
+            //rsa_maHoaBanRoMoi.IsEnabled = false;
         }
 
         private void rsa_btThoat_Click(object sender, RoutedEventArgs e)
@@ -480,7 +465,7 @@ namespace RSA_ELGAMAL
             rsa_soP.Text = rsa_soQ.Text = rsa_soPhiN.Text = rsa_soN.Text = rsa_soE.Text = rsa_soD.Text = string.Empty;
 
             rsa_banGiaiMa.Text = rsa_BanMaHoa.Text = rsa_BanRo.Text = rsa_banMaHoaGuiDen.Text = string.Empty;
-            rsa_btGiaiMa.IsEnabled = false; rsa_btMaHoa.IsEnabled = false;
+            //rsa_btGiaiMa.IsEnabled = false; rsa_btMaHoa.IsEnabled = false;
 
         }
 
