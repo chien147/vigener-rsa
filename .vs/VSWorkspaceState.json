@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\obj"
   ],
-  "SelectedNode": "\\DemoRSAElGamal.xaml",
+  "SelectedNode": "\\DemoRSAElGamal.xaml.cs",
   "PreviewInSolutionExplorer": false
 }

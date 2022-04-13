@@ -34,12 +34,10 @@ namespace RSA_ELGAMAL
         {
             InitializeComponent();
             
-            //rd_tdRSA.IsChecked = true;
-            //rd_tcRSA.IsChecked = false;
-            //rsa_maHoaBanRoMoi.IsEnabled = false;            
+                     
 
         }
-        #region code mã hóa elgamal
+        #region code mã hóa Vigener
         
         string chuoi = "AÁÀẠẢÃĂẮẰẶẲẴẤẦẬẨẪBCDĐEÉÈẸẺẼÊẾỀỆỂỄGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỦỤŨƯỨỪỰỬỮVWXYÝỲỴỶỸZ~`!@#$%^&*();:?/>.<, ";
 
@@ -124,7 +122,7 @@ namespace RSA_ELGAMAL
             this.Close();
         }
 
-        #endregion code mã hóa elgamal
+        #endregion code mã hóa vigener
 
 
 
@@ -224,13 +222,21 @@ namespace RSA_ELGAMAL
             RSA_soPhi_n = (RSA_soP - 1) * (RSA_soQ - 1);
             rsa_soPhiN.Text = RSA_soPhi_n.ToString();
             //Tính e là một số ngẫu nhiên có giá trị 0< e <phi(n) và là số nguyên tố cùng nhau với Phi(n)
-            do
+            if (rsa_soE.Text != "")
             {
-                Random RSA_rd = new Random();
-                RSA_soE = RSA_rd.Next(2, RSA_soPhi_n);
+                
+                rsa_soE.Text = RSA_soE.ToString();
             }
-            while (!nguyenToCungNhau(RSA_soE, RSA_soPhi_n));
-            rsa_soE.Text = RSA_soE.ToString();
+            else
+            {
+                do
+                {
+                    Random RSA_rd = new Random();
+                    RSA_soE = RSA_rd.Next(2, RSA_soPhi_n);
+                }
+                while (!nguyenToCungNhau(RSA_soE, RSA_soPhi_n));
+                rsa_soE.Text = RSA_soE.ToString();
+            }
 
             //Tính d là nghịch đảo modular của e
             RSA_soD = 0;
@@ -282,7 +288,7 @@ namespace RSA_ELGAMAL
             byte[] temp2 = Convert.FromBase64String(ChuoiVao);
             string giaima = Encoding.Unicode.GetString(temp2);
 
-            int[] b = new int[giaima.Length];                   // độ dài mảng = giải mã
+            int[] b = new int[giaima.Length];                  
             for (int i = 0; i < giaima.Length; i++)
             {
                 b[i] = (int)giaima[i];
@@ -327,37 +333,49 @@ namespace RSA_ELGAMAL
             {
                 if (rd_tdRSA.IsChecked == false && rd_tcRSA.IsChecked == true)
                 {
-                    if (rsa_soP.Text == "" || rsa_soQ.Text == "")
-                        MessageBox.Show("Phải nhập đủ 2 số ", "Thông Báo ", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if (rsa_soP.Text == "" || rsa_soQ.Text == "" || rsa_soE.Text == "")
+                        MessageBox.Show("Phải nhập đủ 3 số q p e", "Thông Báo ", MessageBoxButton.OK, MessageBoxImage.Error);
                     else
                     {
                         RSA_soP = int.Parse(rsa_soP.Text);
                         RSA_soQ = int.Parse(rsa_soQ.Text);
+                        RSA_soE = int.Parse(rsa_soE.Text);
                         if (RSA_soP == RSA_soQ)
                         {
-                            MessageBox.Show("Nhập 2 số nguyên tố khác nhau ", " Thông Báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Nhập 2 số nguyên tố p q khác nhau ", " Thông Báo", MessageBoxButton.OK, MessageBoxImage.Error);
                             rsa_soQ.Focus();
                         }
                         else
                         {
                             if (!RSA_kiemTraNguyenTo(RSA_soP) || RSA_soP <= 1)
                             {
-                                MessageBox.Show("Phải nhập số nguyên  tố [p] lớn hơn 1 ", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                                MessageBox.Show("[p] phải là số nguyên tố lớn hơn 1 ", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Error);
                                 rsa_soP.Focus();
                             }
                             else
                             {
                                 if (!RSA_kiemTraNguyenTo(RSA_soQ) || RSA_soQ <= 1)
                                 {
-                                    MessageBox.Show("Phải nhập số nguyên  tố [q] lớn hơn 1 ", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    MessageBox.Show("[q] phải là số nguyên tố lớn hơn 1 ", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Error);
                                     rsa_soQ.Focus();
                                 }
                                 else
                                 {
-                                    RSA_taoKhoa();
-                                    rsa_soP.Text = RSA_soP.ToString();
-                                    rsa_soQ.Text = RSA_soQ.ToString();
-                                    RSA_d_dau = 1;
+
+                                    if(!nguyenToCungNhau(RSA_soE, (RSA_soP - 1)*(RSA_soQ - 1)) || RSA_soE >= (RSA_soP - 1)*(RSA_soQ - 1))
+                                    {
+                                        MessageBox.Show("Phải nhập số nguyên  tố [E] lớn hơn 1 và bé hơn phi n ", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Error);
+                                        rsa_soE.Focus();
+                                    }
+                                    else
+                                    {
+                                        RSA_taoKhoa();
+                                        rsa_soP.Text = RSA_soP.ToString();
+                                        rsa_soQ.Text = RSA_soQ.ToString();
+                                        rsa_soE.Text = RSA_soE.ToString();
+                                        RSA_d_dau = 1;
+                                    }
+                                    
                                     
                                 }
                             }
@@ -386,9 +404,6 @@ namespace RSA_ELGAMAL
                     try
                     {
                         RSA_MaHoa(rsa_BanRo.Text);
-                        //rsa_btMaHoa.IsEnabled = false;
-                        //rsa_btGiaiMa.IsEnabled = true;
-                        //RSA_d_dau = 2;
                     }
                     catch (Exception ex)
                     {
@@ -400,28 +415,22 @@ namespace RSA_ELGAMAL
 
         private void rsa_btGiaiMa_Click(object sender, RoutedEventArgs e)
         {
-
             if (RSA_d_dau != 1)
                 MessageBox.Show("Bạn phải tạo khóa trước ", "Thông Báo", MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 try
                 {
                     RSA_GiaiMa(rsa_banMaHoaGuiDen.Text);
-
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-            //RSA_d_dau = 1;
-            //rsa_btGiaiMa.IsEnabled = false;
-            //rsa_maHoaBanRoMoi.IsEnabled = true;
         }
 
 
         private void rd_tdRSA_Checked(object sender, RoutedEventArgs e)
         {
-            rsa_TaoKhoa.IsEnabled = true;
             rsa_soP.Text = rsa_soQ.Text = rsa_soPhiN.Text = rsa_soN.Text = rsa_soE.Text = rsa_soD.Text = string.Empty;
             rsa_soP.IsEnabled = rsa_soQ.IsEnabled = rsa_soPhiN.IsEnabled = rsa_soN.IsEnabled = rsa_soE.IsEnabled = rsa_soD.IsEnabled = false;
 
@@ -429,7 +438,6 @@ namespace RSA_ELGAMAL
 
         private void rd_tcRSA_Checked(object sender, RoutedEventArgs e)
         {
-            rsa_TaoKhoa.IsEnabled = true;
             rsa_soP.Text = rsa_soQ.Text = rsa_soPhiN.Text = rsa_soN.Text = rsa_soE.Text = rsa_soD.Text = string.Empty;
             rsa_soP.IsEnabled = rsa_soQ.IsEnabled = rsa_soPhiN.IsEnabled = rsa_soN.IsEnabled = rsa_soE.IsEnabled = rsa_soD.IsEnabled = true;
         }
@@ -437,7 +445,6 @@ namespace RSA_ELGAMAL
 
         private void rsa_maHoaBanRoMoi_Click(object sender, RoutedEventArgs e)
         {
-            rsa_btMaHoa.IsEnabled = true;
             rsa_BanRo.Text = rsa_BanMaHoa.Text = rsa_banMaHoaGuiDen.Text = rsa_banGiaiMa.Text = string.Empty;
             RSA_d_dau = 1;
         }
@@ -448,17 +455,10 @@ namespace RSA_ELGAMAL
         }
 
         private void rsa_TaoKhoaMoi_Click(object sender, RoutedEventArgs e)
-        {
-            
+        {        
             RSA_d_dau = 0;
-            rsa_TaoKhoa.IsEnabled = true;
-            rd_tdRSA.IsEnabled = true;
-            rd_tdRSA.IsChecked = true;
-            rd_tcRSA.IsEnabled = true;
-            rd_tcRSA.IsChecked = false;
             rsa_soP.Text = rsa_soQ.Text = rsa_soPhiN.Text = rsa_soN.Text = rsa_soE.Text = rsa_soD.Text = string.Empty;
             rsa_banGiaiMa.Text = rsa_BanMaHoa.Text = rsa_BanRo.Text = rsa_banMaHoaGuiDen.Text = string.Empty;
-
         }
 
         private void rsa_soP_PreviewTextInput(object sender, TextCompositionEventArgs e)
