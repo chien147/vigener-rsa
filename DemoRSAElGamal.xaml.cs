@@ -39,7 +39,7 @@ namespace RSA_ELGAMAL
         }
         #region code mã hóa Vigener
         
-        string chuoi = "AÁÀẠẢÃĂẮẰẶẲẴẤẦẬẨẪBCDĐEÉÈẸẺẼÊẾỀỆỂỄGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỦỤŨƯỨỪỰỬỮVWXYÝỲỴỶỸZ~`!@#$%^&*();:?/>.<, ";
+        string chuoi = "AÁÀẠẢÃĂẮẰẶẲẴÂẤẦẬẨẪBCDĐEÉÈẸẺẼÊẾỀỆỂỄFGHIÍÌỊỈĨJKLMNOÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠPQRSTUÚÙỦỤŨƯỨỪỰỬỮVWXYÝỲỴỶỸZ~`!@#$%^&*();:?/>.<,0123456789 ";
 
         public int[] chuoi_mangchiso(string s)
         {
@@ -102,19 +102,34 @@ namespace RSA_ELGAMAL
 
         private void btMaHoa_Click(object sender, RoutedEventArgs e)
         {
-            string s = txtBanRo.Text;
-            string key = So_K.Text;
-            string v = MaHoa(ref s, key);
-            txt_maHoaBanRo.Text = v.ToString();
+            if (txtBanRo.Text == "" || String_K.Text == "" )
+            {
+                MessageBox.Show("Phải nhập đủ bản rõ và key", "Thông Báo ", MessageBoxButton.OK, MessageBoxImage.Error);
+            }  
+            else
+            {
+                string s = txtBanRo.Text;
+                string key = String_K.Text;
+                string v = MaHoa(ref s, key);
+                txt_maHoaBanRo.Text = v.ToString();
+            }
+           
 
         }
 
         private void btGiaiMa_Click(object sender, RoutedEventArgs e)
         {
-            string s = txt_banMaHoaNhanDuoc.Text;
-            string key = So_K.Text;
-            string v = GiaiMa(ref s, key);
-            txt_banGiaima.Text = v.ToString();
+            if (txt_banMaHoaNhanDuoc.Text == "" || String_K.Text == "" )
+            {
+                MessageBox.Show("Phải nhập đủ bản mã hóa nhận được và key", "Thông Báo ", MessageBoxButton.OK, MessageBoxImage.Error);
+            }  
+            else
+            {
+                string s = txt_banMaHoaNhanDuoc.Text;
+                string key = String_K.Text;
+                string v = GiaiMa(ref s, key);
+                txt_banGiaima.Text = v.ToString();
+            }
         }
 
         private void btThoat_Click(object sender, RoutedEventArgs e)
@@ -139,7 +154,7 @@ namespace RSA_ELGAMAL
         private int RSA_ChonSoNgauNhien()
         {
             Random rd = new Random();
-            return rd.Next(11, 101);// tốc độ chậm nên chọn số bé
+            return rd.Next(11, 101);
         }
 
         //"Hàm kiểm tra nguyên tố"
@@ -279,8 +294,8 @@ namespace RSA_ELGAMAL
             byte[] data = Encoding.Unicode.GetBytes(str);
             rsa_BanMaHoa.Text = Convert.ToBase64String(data);
             rsa_banMaHoaGuiDen.Text = Convert.ToBase64String(data);
-
         }
+
         // hàm giải mã
         public void RSA_GiaiMa(string ChuoiVao)
         {

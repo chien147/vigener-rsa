@@ -16,16 +16,7 @@
 
 
 					<Label Content="key  " FontWeight="Bold" HorizontalAlignment="Left" Margin="432,168,0,0" VerticalAlignment="Top" RenderTransformOrigin="7.262,0.589" Width="34"/>
-					<TextBox  HorizontalAlignment="Left" Height="65" Margin="197,199,0,0" TextWrapping="Wrap" x:Name="So_K" VerticalAlignment="Top" Width="504"/>
-
-
-
-
-
-
-
-
-
+					<TextBox  HorizontalAlignment="Left" Height="65" Margin="197,199,0,0" TextWrapping="Wrap" x:Name="String_K" VerticalAlignment="Top" Width="504"/>
 
 
 					<Label Content="Giải mã" FontWeight="Bold" HorizontalAlignment="Left" Margin="595,2,0,0" VerticalAlignment="Top"/>
